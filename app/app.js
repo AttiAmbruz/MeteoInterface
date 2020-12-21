@@ -16,12 +16,10 @@ import { ConnectedRouter } from 'connected-react-router';
 import FontFaceObserver from 'fontfaceobserver';
 import history from 'utils/history';
 import 'sanitize.css/sanitize.css';
-
-// Import root app
-import App from 'containers/App';
+import LanguageProvider from 'containers/LanguageProvider';
+import WatterTemp from './containers/WatterTemp';
 
 // Import Language Provider
-import LanguageProvider from 'containers/LanguageProvider';
 
 // Load the favicon and the .htaccess file
 import '!file-loader?name=[name].[ext]!./images/favicon.ico';
@@ -51,7 +49,7 @@ const render = messages => {
     <Provider store={store}>
       <LanguageProvider messages={messages}>
         <ConnectedRouter history={history}>
-          <App />
+          <WatterTemp />
         </ConnectedRouter>
       </LanguageProvider>
     </Provider>,
