@@ -8,7 +8,12 @@ class WatterTemp extends React.Component {
     super(props);
     this.state = {
       value: 0,
+      message: 'Offline',
     };
+  }
+
+  componentDidMount() {
+    this.getData();
   }
 
   formatDate = currentdate =>
@@ -16,20 +21,22 @@ class WatterTemp extends React.Component {
       1}/${currentdate.getFullYear()} @ ${currentdate.getHours()}:${currentdate.getMinutes()}:${currentdate.getSeconds()}`;
 
   getData = () => {
-    request
-      .get(tempUrl)
-      .then(data => {
-        if (data) {
-          const json = JSON.parse(data);
-          this.setState({
-            value: json.temp_ds2 || 0,
-            message: `Last sync: ${this.formatDate(new Date())}`,
-          });
-        }
-      })
-      .catch(() => {
-        this.setState({ message: 'Offline' });
-      });
+    setTimeout(() => {
+      request
+        .get(tempUrl)
+        .then(data => {
+          if (data) {
+            const json = JSON.parse(data);
+            this.setState({
+              value: json.temp_ds2 || 0,
+              message: `Last sync: ${this.formatDate(new Date())}`,
+            });
+          }
+        })
+        .catch(() => {
+          this.setState({ message: 'Offline' });
+        });
+    }, 1000);
   };
 
   render() {
@@ -59,7 +66,7 @@ class WatterTemp extends React.Component {
           ranges={ranges}
           value={this.state.value}
         />
-        <p>{this.state.message}</p>
+        <p style={{ textAlign: 'center' }}>{this.state.message}</p>
       </>
     );
   }
